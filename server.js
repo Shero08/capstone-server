@@ -4,10 +4,12 @@ const app = express();
 const port = 3030;
 const cors = require('cors');
 require('dotenv').config();
+const usersRoute = require('./routes/users')
 
 
 app.use(express.json())
 app.use(cors());
+app.use('/', usersRoute);
 
 
 mongoose.connect(process.env.MONGODB_URL);
