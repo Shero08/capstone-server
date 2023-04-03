@@ -1,0 +1,26 @@
+GET http://localhost:3030/users
+
+#####
+
+POST http://localhost:3030/users HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Carlo",
+    "surname": "Capuozzo",
+    "nickname": "Administrator",
+    "email": "carlocap08@gmail.com",
+    "password": "carlocap23@",
+    "role": "admin",
+    "birth": "08/11/1992",
+    "avatar": "https://ui-avatars.com/api/?name=Carlo+Capuozzo"
+}
+
+#####
+
+PATCH http://localhost:3030/users/642b1c70a1ea0cfba1687225
+Content-Type: application/json
+
+{
+    "role": "admin"
+}

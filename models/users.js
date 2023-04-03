@@ -13,7 +13,7 @@ const UsersSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true
-    },
+    }, 
     email: {
         type: String,
         required: true,
@@ -21,7 +21,13 @@ const UsersSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true
+        required: true,
+        min: 6
+    },
+    role: {
+        type: String,
+        required: false,
+        default: 'user'
     },
     birth: {
         type: String,

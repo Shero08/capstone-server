@@ -41,7 +41,7 @@ router.get('/users/:id', async (req, res) => {
 
 router.post('/users', async (req, res) => {
     const salt = await bcrypt.genSalt(10);
-    const hashPassword = await bcrypt.hash(req.body.password, salt);
+    const hashPassword = await bcrypt.hash(req.body.password, salt); 
 
     const users = new Users({
         name: req.body.name,
@@ -52,6 +52,22 @@ router.post('/users', async (req, res) => {
         birth: req.body.birth,
         avatar: req.body.avatar
     })
+
+    const uniqueEmail = await Users.findOne({
+        email: req.body.email
+    })
+
+    const uniqueNick = await Users.findOne({
+        nickname: req.body.nickname
+    })
+
+    if(uniqueEmail){
+        return res.status(400).send('Errore, email già utilizzata')
+    }
+
+    if(uniqueNick){
+        return res.status(400).send('Errore, Nickname già utilizzato')
+    }
     
     try {
         const newUser = await users.save()
