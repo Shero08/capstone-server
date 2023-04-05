@@ -22,5 +22,9 @@ PATCH http://localhost:3030/users/642b1c70a1ea0cfba1687225
 Content-Type: application/json
 
 {
-    "role": "admin"
+    "birth": "1992-11-08"
 }
+
+#####
+
+DELETE http://localhost:3030/users/642de88d5718cf65e841e0ee

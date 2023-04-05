@@ -62,17 +62,24 @@ router.post('/users', async (req, res) => {
     })
 
     if(uniqueEmail){
-        return res.status(400).send('Errore, email già utilizzata')
+        return res.status(400).send({
+            message: 'Errore, email già utilizzata',
+            error: 'mail'
+        })
     }
 
     if(uniqueNick){
-        return res.status(400).send('Errore, Nickname già utilizzato')
+        return res.status(400).send({
+            message: 'Errore, Nickname già utilizzato',
+            error: 'nick'
+        })
     }
     
     try {
         const newUser = await users.save()
         res.status(200).send({
             message: 'Utente salvato con successo nel database',
+            status: 'ok',
             payload: newUser
         })
     } 
