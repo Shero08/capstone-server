@@ -5,3 +5,7 @@ Content-Type: application/json
     "email": "carlocap08@gmail.com",
     "password": "carlocap23@"
 }
+
+#####
+
+GET http://localhost:3030/send-email

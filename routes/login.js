@@ -5,32 +5,32 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const nodemailer = require("nodemailer");
 
-async function main() {
-    let testAccount = await nodemailer.createTestAccount();
+const transporter = nodemailer.createTransport({
+  host: 'app.debugmail.io',
+  port: 9025,
+  auth: {
+    user: '87561551-5cc4-4f63-a572-6c06b4b02778',
+    pass: '781f2bd1-58b8-4a59-a13d-80bc99d29e6e'
+  }
+});
+
+
+router.get('/send-email', async (req, res) => {
+    const mailOptions = {
+      from: 'your-email@example.com',
+      to: 'carlocap08@gmail.com',
+      subject: 'Test Email',
+      text: 'This is a test email from Nodemailer in Express.',
+    };
   
-    let transporter = nodemailer.createTransport({
-      host: "smtp.ethereal.email",
-      port: 587,
-      secure: false,
-      auth: {
-        user: testAccount.user,
-        pass: testAccount.pass,
-      },
+    transporter.sendMail(mailOptions)
+    .then(info => {
+      res.send('Email sent');
+    })
+    .catch(error => {
+      res.status(500).send('Error sending email');
     });
-
-    let info = await transporter.sendMail({
-      from: '"Capsone site mail" <foo@example.com>', // sender address
-      to: "carlocap08@gmail.com", // list of receivers
-      subject: "Hello ✔", // Subject line
-      text: "Hello world?", // plain text body
-      html: "<b>Hello world?</b>", // html body
-    });
-  
-    console.log("Message sent: %s", info.messageId);
-    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-}
-
-
+  });
 
 const verifyToken = (req, res, next) => {
     const token = req.header('Authorization');
@@ -81,8 +81,6 @@ router.post('/login', async (req, res) => {
     res.header('Authorization', token).status(200).send({
         token: token
     })
-
-    main().catch(console.error);
 })
 
 router.post('/refresh-token', verifyToken, async (req, res) => {
