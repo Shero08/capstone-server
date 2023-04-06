@@ -50,7 +50,8 @@ router.post('/users', async (req, res) => {
         email: req.body.email,
         password: hashPassword,
         birth: req.body.birth,
-        avatar: req.body.avatar
+        avatar: req.body.avatar,
+        isActive: req.body.isActive
     })
 
     const uniqueEmail = await Users.findOne({
