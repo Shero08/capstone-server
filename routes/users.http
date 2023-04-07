@@ -2,6 +2,10 @@ GET http://localhost:3030/users
 
 #####
 
+GET http://localhost:3030/pagination
+
+#####
+
 POST http://localhost:3030/users HTTP/1.1
 Content-Type: application/json
 

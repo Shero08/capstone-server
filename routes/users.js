@@ -5,9 +5,21 @@ const bcrypt = require('bcrypt');
 
 
 router.get('/users', async (req, res) => {
+    const { page = 1, limit = 10 } = req.query;
+
     try {
-        const users = await Users.find();
-        res.status(200).send(users);    
+        const users = await Users.find()
+            .limit(limit * 1)
+            .skip((page - 1) * limit);
+
+        const totalDocuments = await Users.countDocuments();
+
+        res.status(200).send({
+            users,
+            totalDocuments,
+            totalPages: Math.ceil(totalDocuments / limit),
+            currentPage: page
+        });    
     } 
     catch (error) {
         res.status(404).send({
