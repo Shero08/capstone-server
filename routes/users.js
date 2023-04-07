@@ -50,6 +50,7 @@ router.post('/users', async (req, res) => {
         email: req.body.email,
         password: hashPassword,
         birth: req.body.birth,
+        role: req.body.role,
         avatar: req.body.avatar,
         isActive: req.body.isActive
     })
@@ -120,7 +121,8 @@ router.delete('/users/:id', async (req, res) => {
 
 router.patch('/users/:id', async (req, res) => {
     const {id} = req.params;
-    const userExist = await Users.findById(id);
+    const userExist = await Users.findById(id); 
+    const salt = await bcrypt.genSalt(10);
 
     if(!userExist){
         return res.status(404).send({
@@ -130,6 +132,11 @@ router.patch('/users/:id', async (req, res) => {
 
     try {
         const dataToUpdate = req.body
+        if(dataToUpdate.password){
+            const hashPassword = await bcrypt.hash(dataToUpdate.password, salt);
+            dataToUpdate.password = hashPassword
+        }
+        
         const option = {
             new: true
         }

@@ -6,25 +6,25 @@ POST http://localhost:3030/users HTTP/1.1
 Content-Type: application/json
 
 {
-    "name": "Carlo",
+    "name": "Gianni",
     "surname": "Capuozzo",
-    "nickname": "Administrator",
-    "email": "carlocap08@gmail.com",
+    "nickname": "Giannivo",
+    "email": "carlocap10@gmail.com",
     "password": "carlocap23@",
     "role": "admin",
-    "birth": "08/11/1992",
+    "birth": "08-11-1992",
     "avatar": "https://ui-avatars.com/api/?name=Carlo+Capuozzo"
 }
 
 #####
 
-PATCH http://localhost:3030/users/642b1c70a1ea0cfba1687225
+PATCH http://localhost:3030/users/6430239d37bb6431c8421ced
 Content-Type: application/json
 
 {
-    "birth": "1992-11-08"
+    "role": "admin"
 }
 
 #####
 
-DELETE http://localhost:3030/users/642de88d5718cf65e841e0ee
+DELETE http://localhost:3030/users/643024fa37bb6431c8421cff
