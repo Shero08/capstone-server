@@ -73,7 +73,8 @@ router.post('/login', async (req, res) => {
         role: user.role,
         birth: user.birth,
         avatar: user.avatar,
-        isActive: user.isActive
+        isActive: user.isActive,
+        id: user._id
     }, process.env.JWT_SECRET, {
         expiresIn: '15m',
     })
@@ -99,7 +100,8 @@ router.post('/refresh-token', verifyToken, async (req, res) => {
         role: user.role,
         birth: user.birth,
         avatar: user.avatar,
-        isActive: user.isActive
+        isActive: user.isActive,
+        id: user._id
     }, process.env.JWT_SECRET, {
         expiresIn: '15m',
     })

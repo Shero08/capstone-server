@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const Users = require('../models/users');
 const bcrypt = require('bcrypt');
+const multer  = require('multer')
+const path = require('path');
 
 
 router.get('/users', async (req, res) => {
@@ -164,6 +166,46 @@ router.patch('/users/:id', async (req, res) => {
             error: error
         })
     }
+});
+
+//CONFIG STORAGE
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, path.join(__dirname, '..', 'uploads'))
+    },
+    filename: function (req, file, cb) {
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 100)
+      const fileExtension = file.originalname.split('.').pop(); // ottieni l'estensione del file
+      cb(null, file.fieldname + '-' + uniqueSuffix + '.' + fileExtension)
+    }
+})
+  
+const upload = multer({ storage: storage })
+
+//UPLOAD IMAGE
+router.post('/avatar', upload.single('avatar'), async (req, res) => {
+    console.log(req.file);
+    
+    try {
+      res.status(200).json({
+          message: 'Caricamento immagine avvenuto con successo.', 
+          fileName: req.file.filename, 
+          upload: req.file.path
+      })
+    } 
+    catch (error) {
+      res.status(500).send({
+          message: 'Errore interno del server',
+          error: error
+      })
+    }
+});
+
+//GET URL UPLOADED FILE
+router.get('/avatar/:filename', (req, res) => {
+    const filename = req.params.filename;
+    const filePath = path.join(__dirname, '..', 'uploads', filename);
+    res.status(200).sendFile(filePath);
 });
 
 
