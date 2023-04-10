@@ -64,6 +64,10 @@ router.post('/login', async (req, res) => {
         return res.status(400).send('Password errata')
     }
 
+    if(user.isActive === false){
+        return res.status(400).send('Account non attivo')
+    }
+
     // Generate JWT token
     const token = jwt.sign({ 
         name: user.name, 
@@ -74,7 +78,7 @@ router.post('/login', async (req, res) => {
         birth: user.birth,
         avatar: user.avatar,
         isActive: user.isActive,
-        id: user._id
+        id: user._id 
     }, process.env.JWT_SECRET, {
         expiresIn: '15m',
     })
