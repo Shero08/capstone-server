@@ -182,9 +182,9 @@ const storage = multer.diskStorage({
   
 const upload = multer({ storage: storage })
 
+/*
 //UPLOAD IMAGE
 router.post('/avatar', upload.single('avatar'), async (req, res) => {
-    console.log(req.file);
     
     try {
       res.status(200).json({
@@ -200,12 +200,53 @@ router.post('/avatar', upload.single('avatar'), async (req, res) => {
       })
     }
 });
+*/
+
+//UPLOAD IMAGE AVATAR AND UPDATE AUTHOR'S AVATAR
+router.patch('/users/:id/avatar', upload.single('avatar'), async (req, res) => {
+    const {id} = req.params;
+    const userExist = await Users.findById(id);
+
+    if(!userExist){
+        return res.status(404).send({
+            message: 'Non esiste nessun utente con questo ID'
+        })
+    }
+
+    try {
+        const result = await Users.findByIdAndUpdate(id, {
+            $set: {
+                avatar: 'http://localhost:3030/avatar/' + req.file.filename
+            }
+        }, { new: true });
+        
+        res.status(200).send({
+            message: 'Utente aggiornato con successo',
+            payload: result
+        })
+    } 
+    catch (error) {
+        res.status(500).send({
+            message: 'Errore interno del server',
+            error: error
+        })
+    }
+});
 
 //GET URL UPLOADED FILE
 router.get('/avatar/:filename', (req, res) => {
     const filename = req.params.filename;
     const filePath = path.join(__dirname, '..', 'uploads', filename);
-    res.status(200).sendFile(filePath);
+    try {
+        res.status(200).sendFile(filePath);
+    } 
+    catch (error) {
+        res.status(500).send({
+            message: 'Errore interno del server',
+            error: error
+        })
+    }
+    
 });
 
 
