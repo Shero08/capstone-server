@@ -1,0 +1,15 @@
+GET http://localhost:3030/projects
+
+#####
+
+POST http://localhost:3030/projects HTTP/1.1
+Content-Type: application/json
+
+{
+    "title": "Progetto di prova",
+    "description": "Un progetto per testare i progetti",
+    "category": "Editing",
+    "author": "6430239d37bb6431c8421ced",
+    "file": "http://localhost:3030/file",
+    "status": "accettato"
+}
