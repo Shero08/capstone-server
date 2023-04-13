@@ -16,8 +16,17 @@ router.get('/projects', async (req, res) => {
         
         const totalDocuments = await Projects.countDocuments();
 
+        const populatedProjects = await Promise.all(
+            projects.map(async (project) => {
+                const populatedProject = project.toObject();
+                const author = await Users.findById(project.author);
+                populatedProject.author = author;
+                return populatedProject;
+            })
+        );
+
         res.status(200).send({
-            projects,
+            projects: populatedProjects,
             totalDocuments,
             totalPages: Math.ceil(totalDocuments / limit),
             currentPage: page
