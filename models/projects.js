@@ -15,7 +15,7 @@
     },
     author: {
         type: mongoose.Schema.Types.ObjectId, 
-        ref: "Users"
+        ref: "UsersModel"
     },
     file: {
         type: String,
@@ -27,7 +27,7 @@
     },
     editor: {
         type: mongoose.Schema.Types.ObjectId, 
-        ref: "Users"
+        ref: "UsersModel"
     }
  }, { timestamps: true, strict: true });
 

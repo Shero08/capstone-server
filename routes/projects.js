@@ -10,23 +10,17 @@ router.get('/projects', async (req, res) => {
 
     try {
         const projects = await Projects.find()
-            .populate('Users')
+            .populate('author')
+            .populate('editor')
             .limit(limit * 1)
             .skip((page - 1) * limit);
         
         const totalDocuments = await Projects.countDocuments();
 
-        const populatedProjects = await Promise.all(
-            projects.map(async (project) => {
-                const populatedProject = project.toObject();
-                const author = await Users.findById(project.author);
-                populatedProject.author = author;
-                return populatedProject;
-            })
-        );
+        
 
         res.status(200).send({
-            projects: populatedProjects,
+            projects,
             totalDocuments,
             totalPages: Math.ceil(totalDocuments / limit),
             currentPage: page
