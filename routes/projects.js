@@ -37,6 +37,30 @@ router.get('/projects', async (req, res) => {
     }
 });
 
+router.get('/projects/:id', async (req, res) => {
+    const {id} = req.params;
+
+    try {
+        const project = await Projects.findById(id)
+            .populate('author')
+            .populate('editor')
+
+        if(!project){
+            return res.status(404).send({
+                message: 'Non esiste nessun progetto con questo ID'
+            })
+        }
+
+        res.status(200).send(project);
+    } 
+    catch (error) {
+        res.status(500).send({
+            message: 'Errore interno del server',
+            error: error
+        })
+    }
+});
+
 router.post('/projects', async (req, res) => {
     const { author } = req.body
     const findAuthor = await Users.findById(author)
