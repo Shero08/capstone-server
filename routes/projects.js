@@ -6,18 +6,21 @@ const multer = require('multer');
 
 
 router.get('/projects', async (req, res) => {
-    const { page = 1, limit = 10 } = req.query;
+    const { author, page = 1, limit = 10 } = req.query;
+    const query = {}
+
+    if (author) {
+        query.author = author;
+    }
 
     try {
-        const projects = await Projects.find()
+        const projects = await Projects.find(query)
             .populate('author')
             .populate('editor')
             .limit(limit * 1)
             .skip((page - 1) * limit);
         
-        const totalDocuments = await Projects.countDocuments();
-
-        
+        const totalDocuments = await Projects.countDocuments(query);
 
         res.status(200).send({
             projects,

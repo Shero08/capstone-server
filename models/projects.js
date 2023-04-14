@@ -10,7 +10,7 @@
         type: String
     },
     category: {
-        type: String,
+        type: Array,
         required: true
     },
     author: {
@@ -23,7 +23,7 @@
     },
     status: {
         type: String,
-        required: true
+        default: 'pending'
     },
     editor: {
         type: mongoose.Schema.Types.ObjectId, 

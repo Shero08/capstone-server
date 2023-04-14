@@ -6,10 +6,9 @@ POST http://localhost:3030/projects HTTP/1.1
 Content-Type: application/json
 
 {
-    "title": "Progetto di prova",
-    "description": "Un progetto per testare i progetti",
-    "category": "Editing",
+    "title": "Progetto di prova 2",
+    "description": "Un progetto per testare i progettini",
+    "category": "Servizio1",
     "author": "6430239d37bb6431c8421ced",
-    "file": "http://localhost:3030/file",
-    "status": "accettato"
+    "file": "http://localhost:3030/file"
 }
