@@ -18,7 +18,7 @@
         ref: "UsersModel"
     },
     file: {
-        type: String,
+        type: Object,
         required: true
     },
     status: {
