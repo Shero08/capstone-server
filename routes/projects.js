@@ -63,40 +63,6 @@ router.get('/projects/:id', async (req, res) => {
     }
 });
 
-/*
-router.post('/projects', async (req, res) => {
-    const { author } = req.body
-    const findAuthor = await Users.findById(author)
-
-    if(!author){
-        return res.status(400).send("Utente non trovato")
-    }
-
-    const project = new Projects({
-        title: req.body.title,
-        description: req.body.description,
-        category: req.body.category,
-        author: findAuthor._id,
-        file: req.body.file,
-        status: req.body.status
-    })
-    
-    try {
-        const newProject = await project.save()
-        res.status(200).send({
-            message: 'Nuovo progetto creato con successo',
-            payload: newProject
-        })
-    } 
-    catch (error) {
-        res.status(500).send({
-            message: 'Errore interno del server',
-            error: error
-        })
-    }
-})
-*/
-
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null, path.join(__dirname, '..', 'uploads'))
@@ -143,11 +109,20 @@ router.post('/projects', upload.single('file'), async (req, res) => {
 })
 
 //GET URL UPLOADED FILE
-router.get('/projects/:id/:filename', (req, res) => {
-    const filename = req.params.filename;
+router.get('/projects/:id/:filename', async (req, res) => {
+    const {id, filename } = req.params;
+    const filePath = path.join(__dirname, '..', 'uploads', filename);
 
     try {
-        res.status(200).sendFile(`uploads/${filename}`);
+        const project = await Projects.findById(id)
+
+        if(!project){
+           return res.status(404).send({
+                message: 'Non esiste nessun progetto con questo ID'
+            })
+        }
+
+        res.status(200).sendFile(filePath);
     } 
     catch (error) {
         res.status(500).send({
@@ -156,6 +131,64 @@ router.get('/projects/:id/:filename', (req, res) => {
         })
     }
     
+});  
+
+
+router.patch('/projects/:id', upload.single('file'), async (req, res) => {
+    const {id} = req.params;
+    const projectExist = await Projects.findById(id);
+
+    if(!projectExist){
+        return res.status(404).send({
+            message: 'Non esiste nessun progetto con questo ID'
+        })
+    }
+
+    try {
+        const dataToUpdate = req.body
+        if (req.file) {
+            dataToUpdate.file = req.file;
+        }
+        const option = {
+            new: true
+        }
+        const result = await Projects.findByIdAndUpdate(id, dataToUpdate, option);
+        res.status(200).send({
+            message: 'Progetto aggiornato con successo',
+            payload: result
+        })
+    } 
+    catch (error) {
+        res.status(500).send({
+            message: 'Errore interno del server',
+            error: error
+        })
+    }
+});
+
+
+router.delete('/projects/:id', async (req, res) => {
+    const {id} = req.params;
+
+    try {
+        const project = await Projects.findById(id).deleteOne();
+
+        if(!project){
+            return res.status(404).send({
+                message: 'Non esiste nessun progetto con questo ID'
+            })
+        }
+
+        res.status(200).send({
+            message: 'Progetto eliminato con successo'
+        })
+    } 
+    catch (error) {
+        res.status(500).send({
+            message: 'Errore interno del server',
+            error: error
+        })
+    }
 });
 
 module.exports = router

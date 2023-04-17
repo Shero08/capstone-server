@@ -12,3 +12,12 @@ Content-Type: application/json
     "author": "6430239d37bb6431c8421ced",
     "file": "http://localhost:3030/file"
 }
+
+#####
+
+PATCH http://localhost:3030/projects/643c74e1c591d92d3996b4b9
+Content-Type: application/json
+
+{
+    "status": "in attesa"
+}

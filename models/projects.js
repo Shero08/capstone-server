@@ -23,7 +23,7 @@
     },
     status: {
         type: String,
-        default: 'pending'
+        default: 'in attesa'
     },
     editor: {
         type: mongoose.Schema.Types.ObjectId, 
