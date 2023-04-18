@@ -5,6 +5,7 @@ const Users = require('../models/users');
 const multer = require('multer');
 const path = require('path');
 require('dotenv').config();
+const verified = require('../middlewares/verifyToken');
 
 
 router.get('/projects', async (req, res) => {
@@ -76,7 +77,7 @@ const storage = multer.diskStorage({
   
 const upload = multer({ storage: storage })
 
-router.post('/projects', upload.single('file'), async (req, res) => {
+router.post('/projects', verified, upload.single('file'), async (req, res) => {
     const { author } = req.body
     const findAuthor = await Users.findById(author)
 
@@ -134,7 +135,7 @@ router.get('/projects/:id/:filename', async (req, res) => {
 });  
 
 
-router.patch('/projects/:id', upload.single('file'), async (req, res) => {
+router.patch('/projects/:id', verified, upload.single('file'), async (req, res) => {
     const {id} = req.params;
     const projectExist = await Projects.findById(id);
 
@@ -167,7 +168,7 @@ router.patch('/projects/:id', upload.single('file'), async (req, res) => {
 });
 
 
-router.delete('/projects/:id', async (req, res) => {
+router.delete('/projects/:id', verified, async (req, res) => {
     const {id} = req.params;
 
     try {

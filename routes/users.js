@@ -4,6 +4,7 @@ const Users = require('../models/users');
 const bcrypt = require('bcrypt');
 const multer  = require('multer')
 const path = require('path');
+const verified = require('../middlewares/verifyToken');
 
 
 router.get('/users', async (req, res) => {
@@ -25,7 +26,7 @@ router.get('/users', async (req, res) => {
     } 
     catch (error) {
         res.status(404).send({
-            message: 'Errore interno del server',
+            message: 'Errore interno del server', 
             error: error
         })
     }
@@ -53,7 +54,7 @@ router.get('/users/:id', async (req, res) => {
 });
 
 
-router.post('/users', async (req, res) => {
+router.post('/users', verified, async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(req.body.password, salt); 
 
@@ -108,7 +109,7 @@ router.post('/users', async (req, res) => {
 })
 
 
-router.delete('/users/:id', async (req, res) => {
+router.delete('/users/:id', verified, async (req, res) => {
     const {id} = req.params;
 
     try {
@@ -133,7 +134,7 @@ router.delete('/users/:id', async (req, res) => {
 });
 
 
-router.patch('/users/:id', async (req, res) => {
+router.patch('/users/:id', verified, async (req, res) => {
     const {id} = req.params;
     const userExist = await Users.findById(id); 
     const salt = await bcrypt.genSalt(10);
@@ -203,7 +204,7 @@ router.post('/avatar', upload.single('avatar'), async (req, res) => {
 */
 
 //UPLOAD IMAGE AVATAR AND UPDATE AUTHOR'S AVATAR
-router.patch('/users/:id/avatar', upload.single('avatar'), async (req, res) => {
+router.patch('/users/:id/avatar', verified, upload.single('avatar'), async (req, res) => {
     const {id} = req.params;
     const userExist = await Users.findById(id);
 
