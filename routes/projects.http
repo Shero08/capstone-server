@@ -15,9 +15,10 @@ Content-Type: application/json
 
 #####
 
-PATCH http://localhost:3030/projects/643c74e1c591d92d3996b4b9
+PATCH http://localhost:3030/projects/6433e3dce217f41eab214f6a
 Content-Type: application/json
+Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQ2FybG8iLCJzdXJuYW1lIjoiQ2FwdW96em8iLCJuaWNrbmFtZSI6IkFkbWluaXN0cmF0b3IiLCJlbWFpbCI6ImNhcmxvY2FwMDhAZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiYmlydGgiOiIxOTkyLTExLTA4IiwiYXZhdGFyIjoiaHR0cDovL2xvY2FsaG9zdDozMDMwL2F2YXRhci9hdmF0YXItMTY4MTIzMzM5MDMyMC0zMS5qcGciLCJpc0FjdGl2ZSI6dHJ1ZSwiaWQiOiI2NDMwMjM5ZDM3YmI2NDMxYzg0MjFjZWQiLCJpYXQiOjE2ODIwMTQyODgsImV4cCI6MTY4MjAxNTE4OH0.tJjU6jDK1nXjwOw3lMMCqPuqamh4lrpp1UIuW_CV1Qs"
 
 {
-    "status": "in attesa"
+    "category": ["editing"]
 }
