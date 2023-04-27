@@ -9,11 +9,15 @@ const verified = require('../middlewares/verifyToken');
 
 
 router.get('/projects', async (req, res) => {
-    const { author, page = 1, limit = 10 } = req.query;
+    const { author, status, page = 1, limit = 10 } = req.query;
     const query = {}
 
     if (author) {
         query.author = author;
+    }
+
+    if(status) {
+        query.status = status;
     }
 
     try {
