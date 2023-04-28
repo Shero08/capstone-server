@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "prod": "pm2 start server.js -i --exp-backoff-restart-delay=100"
   },
   "repository": {
     "type": "git",
