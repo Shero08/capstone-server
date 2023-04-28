@@ -7,6 +7,9 @@
     "dev": "nodemon server.js",
     "prod": "pm2-runtime start server.js -i --exp-backoff-restart-delay=100"
   },
+  "engines": {
+    "node": ">=16"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Shero08/capstone-server.git"
