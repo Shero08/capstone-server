@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 const multer  = require('multer')
 const path = require('path');
 const verified = require('../middlewares/verifyToken');
-
+require('dotenv').config();
 
 router.get('/users', async (req, res) => {
     const { page = 1, limit = 10 } = req.query;
