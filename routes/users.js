@@ -183,26 +183,6 @@ const storage = multer.diskStorage({
   
 const upload = multer({ storage: storage })
 
-/*
-//UPLOAD IMAGE
-router.post('/avatar', upload.single('avatar'), async (req, res) => {
-    
-    try {
-      res.status(200).json({
-          message: 'Caricamento immagine avvenuto con successo.', 
-          fileName: req.file.filename, 
-          upload: req.file.path
-      })
-    } 
-    catch (error) {
-      res.status(500).send({
-          message: 'Errore interno del server',
-          error: error
-      })
-    }
-});
-*/
-
 //UPLOAD IMAGE AVATAR AND UPDATE AUTHOR'S AVATAR
 router.patch('/users/:id/avatar', verified, upload.single('avatar'), async (req, res) => {
     const {id} = req.params;
@@ -217,7 +197,7 @@ router.patch('/users/:id/avatar', verified, upload.single('avatar'), async (req,
     try {
         const result = await Users.findByIdAndUpdate(id, {
             $set: {
-                avatar: 'http://localhost:3030/avatar/' + req.file.filename
+                avatar: `${process.env.DEPLOY_URL}/avatar/` + req.file.filename
             }
         }, { new: true });
         
